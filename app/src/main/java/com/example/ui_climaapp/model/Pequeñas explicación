@@ -1,0 +1,6 @@
+En este caso, tenemos todos los valores del JSON de OpenWeatherMap en el Model.
+
+Para traer todas las clases utilizo un PLUGIN "JSON to Plugin Class". La verdad esta muy buena, porque
+te da todos los valores dentro de la misma aplicación.
+
+Por lo tanto, se puede trabajar de una forma mas directa con los objetos de la Api de OpenWeatherMap.
