@@ -10,3 +10,4 @@ Las librerias que utiliza son:
 - Droidsonroids gif
 - Lifecycle
 - Coroutines
+- Swiperefreshlayout -> Un layout especial para refrescar la pantalla
