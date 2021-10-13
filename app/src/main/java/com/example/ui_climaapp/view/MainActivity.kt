@@ -1,22 +1,23 @@
 package com.example.ui_climaapp.view
 
 
-import android.annotation.SuppressLint
 import android.content.ContentValues.TAG
+import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
+import com.example.ui_climaapp.Lista.HistorialActivity
 import com.example.ui_climaapp.R
 import com.example.ui_climaapp.databinding.ActivityMainBinding
 import com.example.ui_climaapp.view_model.MainViewModel
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlin.math.roundToInt
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,8 +25,6 @@ class MainActivity : AppCompatActivity() {
 
     //ViewModel y Persistencia de datos con SharedPreferences
     private lateinit var viewModel: MainViewModel
-    private lateinit var GET:SharedPreferences
-    private lateinit var SET:SharedPreferences.Editor
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,20 +34,17 @@ class MainActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
-        //Asignando los valores a GET y SET -> Para hacer uso de la permanencia de datos
-        GET = getSharedPreferences(packageName, MODE_PRIVATE)
-        SET = GET.edit()
-
         //Conectamos con el MainViewModel
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        var cName = GET.getString("cityName", "rosario, ar")?.toLowerCase()
+        //var cName = GET.getString("cityName", "rosario, ar")?.toLowerCase()
+        var cName = com.example.ui_climaapp.Lista.SharedPreferences.GetStringValue(this, "cityName")
 
         //Valor ingresado por el EditText que nos ayuda a buscar la ciudad en tiempo real
         binding.edtCityName.setText(cName)
 
         //Refrescamos para que aparesca el valor introducido por el EditText
-        viewModel.refreshData(cName!!)
+        viewModel.refreshData(cName)
 
         getLiveData()
 
@@ -59,9 +55,11 @@ class MainActivity : AppCompatActivity() {
             binding.tvError.visibility = View.GONE
             binding.pbLoading.visibility = View.GONE
 
-            var cityName = GET.getString("cityName", cName)?.toLowerCase()
+            //var cityName = GET.getString("cityName", cName)?.toLowerCase()
+            var cityName = com.example.ui_climaapp.Lista.SharedPreferences.GetStringValue(this,
+                "cityName")
             binding.edtCityName.setText(cityName)
-            viewModel.refreshData(cityName!!)
+            viewModel.refreshData(cityName)
             binding.swipeRefreshLayout.isRefreshing = false
 
         }
@@ -71,8 +69,7 @@ class MainActivity : AppCompatActivity() {
         //Y segundo en el viewModel.
         binding.imgSearchCity.setOnClickListener{
             val cityName = binding.edtCityName.text.toString()
-            SET.putString("cityName", cityName)
-            SET.apply()
+            com.example.ui_climaapp.Lista.SharedPreferences.SetStringValue(this,"cityName", cityName)
             viewModel.refreshData(cityName)
             getLiveData()
             Log.i(TAG, "onCreate: " + cityName)
@@ -80,8 +77,34 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    //Creamos la funcion para obtener los datos en vivo
+    /*Menu*/
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.activity_menu, menu)
 
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        val id = item.itemId
+
+        when (id){
+
+            R.id.nav_historial -> {
+
+                val intent = Intent(this, HistorialActivity::class.java)
+                startActivity(intent)
+            }
+
+        }
+
+        return true
+    }
+
+    /*GetLiveData*/
+
+    //Creamos la funcion para obtener los datos en vivo
     private fun getLiveData(){
         viewModel.weather_data.observe(this, Observer { data ->
             data?.let {

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Ui-ClimaApp</string>
+    <string name="app_name">ClimaApp</string>
     <string name="n_a">N/A</string>
     <string name="buscar_ciudad">Buscar ciudad</string>
     <string name="temp_max">Temp Max</string>
@@ -9,4 +9,5 @@
     <string name="temp_min">Temp Min</string>
     <string name="error_intentar_otra_vez">Error, intentar otra vez</string>
     <string name="ºc">ºC</string>
+    <string name="historial">Historial</string>
 </resources>
