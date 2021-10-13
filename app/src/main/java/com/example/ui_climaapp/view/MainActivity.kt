@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     //Creamos la funcion para obtener los datos en vivo
-    @SuppressLint("SetTextI18n")
+
     private fun getLiveData(){
         viewModel.weather_data.observe(this, Observer { data ->
             data?.let {
@@ -100,9 +100,9 @@ class MainActivity : AppCompatActivity() {
                 binding.estadoDelClima.text = data.weather.get(0).description
 
                 /*Demas valores de la Activity del clima*/
-                binding.temp.text = data.main.temp.toInt().toString() + R.string.ºc
-                binding.tempMin.text = data.main.tempMin.toInt().toString() + R.string.ºc
-                binding.tempMax.text = data.main.tempMax.toInt().toString() + R.string.ºc
+                binding.temp.text = data.main.temp.toInt().toString() + "ºC"
+                binding.tempMin.text = data.main.tempMin.toInt().toString() + "ºC"
+                binding.tempMax.text = data.main.tempMax.toInt().toString() + "ºC"
                 binding.humedad.text = data.main.humidity.toString() + "%"
                 binding.viento.text = data.wind.speed.toString()
             }
