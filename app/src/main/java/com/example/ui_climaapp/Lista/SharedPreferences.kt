@@ -25,7 +25,7 @@ object SharedPreferences {
         //Obtenemos los valores guardado en nuestro SharedPreference
         val sharedPref: SharedPreferences = context.getSharedPreferences(KEY, Context.MODE_PRIVATE)
 
-        return sharedPref.getString(key, "No hay valore agregados")!!
+        return sharedPref.getString(key, "")!!
 
     }
 

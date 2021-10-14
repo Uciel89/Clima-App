@@ -22,7 +22,6 @@ class HistorialActivity : AppCompatActivity() {
         var recyclerViewAdapter = RecycleViewAdapter(historialList)
 
         setupRecycleView(recyclerViewAdapter)
-
     }
 
     //Inicializamos al RecycleView
