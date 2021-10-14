@@ -18,7 +18,7 @@ class CiudadesViewModel(application: Application): AndroidViewModel(application)
         readAllData = repository.readAllData
     }
 
-    fun addUser(ciudades: Ciudades){
+    fun addCiudad(ciudades: Ciudades){
 
         viewModelScope.launch(Dispatchers.IO) {
 

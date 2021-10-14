@@ -3,21 +3,27 @@ package com.example.ui_climaapp.view
 
 import android.content.ContentValues.TAG
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.example.ui_climaapp.Lista.HistorialActivity
 import com.example.ui_climaapp.R
+import com.example.ui_climaapp.Room_DataBase.Ciudades
+import com.example.ui_climaapp.Room_DataBase.CiudadesViewModel
 import com.example.ui_climaapp.databinding.ActivityMainBinding
 import com.example.ui_climaapp.view_model.MainViewModel
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +31,9 @@ class MainActivity : AppCompatActivity() {
 
     //ViewModel y Persistencia de datos con SharedPreferences
     private lateinit var viewModel: MainViewModel
+
+    //Variable para el CiudadViewModel -> parte de la base de datos con ROOM
+    private lateinit var vCiudadViewModel: CiudadesViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,7 +44,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(view)
 
         //Conectamos con el MainViewModel
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        viewModel = ViewModelProvider(this).get(MainViewModel::class.java)
 
         //var cName = GET.getString("cityName", "rosario, ar")?.toLowerCase()
         var cName = com.example.ui_climaapp.Lista.SharedPreferences.GetStringValue(this, "cityName")
@@ -64,6 +73,9 @@ class MainActivity : AppCompatActivity() {
 
         }
 
+        /*Instanciamos el ciudadViewModel*/
+        vCiudadViewModel = ViewModelProvider(this).get(CiudadesViewModel::class.java)
+
         //Añadimos un setOnClickListener a la imagen del icono de busqueda
         //Para que al valor del EditText loc coloque, primero en la permanecia de datos
         //Y segundo en el viewModel.
@@ -73,8 +85,35 @@ class MainActivity : AppCompatActivity() {
             viewModel.refreshData(cityName)
             getLiveData()
             Log.i(TAG, "onCreate: " + cityName)
+
+            InsertDataToDataBase()
+
         }
 
+    }
+
+    /*Base de datos*/
+
+    //Funcion encarga de insertar los datos a la base de datos
+    private fun InsertDataToDataBase() {
+
+        var ciudades = binding.edtCityName.text.toString()
+
+        if(inputCheck(ciudades)){
+            //Creamos el objeto Ciudad
+            val ciudad = Ciudades(0, ciudades)
+
+            //Agregamos los datos a la base de datos
+            vCiudadViewModel.addCiudad(ciudad)
+
+           Toast.makeText(this,"El dato fue agregado con exito", Toast.LENGTH_LONG).show()
+       }
+    }
+
+    //Hacemos un chequeo de los datos obtenido por el EditText
+    private fun inputCheck(ciudades: String): Boolean{
+
+        return !(TextUtils.isEmpty(ciudades))
     }
 
     /*Menu*/

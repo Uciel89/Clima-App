@@ -18,4 +18,5 @@ interface CiudadesDao {
     //Consulta para leer todos los datos de la tabla
     @Query("SELECT * FROM tabla_ciudades ORDER BY id ASC")
     fun readAllData(): LiveData<List<Ciudades>>
+
 }

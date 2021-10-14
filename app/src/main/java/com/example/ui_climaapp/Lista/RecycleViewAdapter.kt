@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ui_climaapp.R
+import com.example.ui_climaapp.Room_DataBase.Ciudades
 
 class RecycleViewAdapter(private val myArrayList: List<Historial>):
     RecyclerView.Adapter<RecycleViewAdapter.ViewHolder>() {
