@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 
 class CiudadesViewModel(application: Application): AndroidViewModel(application) {
 
-    private val readAllData: LiveData<List<Ciudades>>
+    val readAllData: LiveData<List<Ciudades>>
     private val repository: CiudadesRepository
 
     init {

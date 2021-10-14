@@ -99,15 +99,14 @@ class MainActivity : AppCompatActivity() {
 
         var ciudades = binding.edtCityName.text.toString()
 
-        if(inputCheck(ciudades)){
+        if(inputCheck(ciudades)) {
+
             //Creamos el objeto Ciudad
             val ciudad = Ciudades(0, ciudades)
 
             //Agregamos los datos a la base de datos
             vCiudadViewModel.addCiudad(ciudad)
-
-           Toast.makeText(this,"El dato fue agregado con exito", Toast.LENGTH_LONG).show()
-       }
+        }
     }
 
     //Hacemos un chequeo de los datos obtenido por el EditText
