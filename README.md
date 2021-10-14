@@ -11,3 +11,4 @@ Las librerias que utiliza son:
 - Lifecycle
 - Coroutines
 - Swiperefreshlayout -> Un layout especial para refrescar la pantalla
+- Room
